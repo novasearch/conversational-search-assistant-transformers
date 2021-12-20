@@ -22,7 +22,8 @@ class BertReranker:
         if use_cuda:
             if torch.cuda.is_available():
                 self.device = torch.device("cuda")
-                self.model.cuda()
+                self.model.to(self.device)
+                print("Using Cuda Device")
             else:
                 self.device = torch.device("cpu")
                 print("No Cuda device found using cpu")

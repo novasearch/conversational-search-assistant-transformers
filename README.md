@@ -5,10 +5,11 @@ available [here](https://arxiv.org/pdf/2101.08197.pdf).
 
 ## Getting Started
 Install/Clone Anserini (Java) following this [link](https://github.com/castorini/anserini).
-  * You will also need Java 11 (due to its dependency on Anserini)
+  * You will also need Java 11
 
 Install the rest of the necessary dependencies with the package manager of your choice.
-If you use conda you can create the env using the **search_assistant_env.yml** file:
+If you use conda you can create the env using the **search_assistant_env.yml** file
+(depending on the hardware some versions might need to be different):
 
 `conda env create -f search_assistant_env.yml`
 
@@ -36,6 +37,8 @@ for a more comprehensive explanation.
 * Link to [WAPO](https://ir.nist.gov/wapo/WashingtonPost.v2.tar.gz) and [WAPO duplicate files](http://boston.lti.cs.cmu.edu/Services/treccast19/wapo_duplicate_list_v1.0.txt)
 
 ## Processing and Indexing the Data
+Instead of preprocessing and indexing the data yourself, you can also download our 
+anserini/pyserini index from [here](https://drive.google.com/file/d/1QT2yNoLune-1x_QViIEM9wnjOvrGqWcB/view?usp=sharing) (~30 GB).
 
 ### Preprocessing
 After downloading the data we parse all sources to the same jsonl representation 
@@ -69,6 +72,9 @@ Index using pyserini:
 The query rewriting model in the paper is based on a T5 model trained on the 
 [CANARD](https://sites.google.com/view/qanta/projects/canard) dataset.
 
+The model trained on the CANARD is available to download [here](https://drive.google.com/file/d/1TBWNWHSxFYzDIZ8wVbFXKMQRWSrAfUq0/view?usp=sharing). 
+Instructions on how to load and use the model are provided in the
+python notebook available at: **colab_notebooks/t5_query_rewriter.ipynb**.
 
 ### Processed Queries
 If you are only interested in the queries already processed by the query rewriting model
@@ -144,20 +150,21 @@ To generate the retrieval only runs for all query types run:
 `python3 run_test_generalizable.py --topics_json_path ./2019_data/evaluation_topics_v1.0.json --qrel_file_path ./2019_data/evaluation_topics_mod.qrel --similarity lmd --index <.../index_output_location>/car_marco_wapo`
 
 ### Reranking
-To generate the retrieval and reranking runs for all query types run:
+To generate the retrieval and reranking runs for all query types run 
+(it is highly recommended to use a GPU device to create this run):
 
 `python3 run_test_generalizable.py --topics_json_path ./2019_data/evaluation_topics_v1.0.json --qrel_file_path ./2019_data/evaluation_topics_mod.qrel --similarity lmd --index <.../index_output_location>/car_marco_wapo --reranker --reranker_batch_size 8`
 
-
+### Results
 The run_test_generalizable.py script will generate various **.run** files available at the **runs** folder, 
 and various **.csv** files in the **results** folder with the **unnoficial** metrics.
 
 ## Evaluate the Runs
 The metrics outputted from the run_test_generalizable.py script are not the official metrics, so we now run the
 official [trec_eval](https://trec.nist.gov/trec_eval/) script over the generated runs.
-Donwload the trec_eval from [here]((https://trec.nist.gov/trec_eval/)) if needed.
+Download the trec_eval from [here]((https://trec.nist.gov/trec_eval/)) if needed.
 
-If you donwloed a newer version of trec_eval you may need to change some files in the official script to include the metrics at rank 3.
+If you download a newer version of trec_eval you may need to change some files in the official script to include the metrics at rank 3.
 * trec_eval.9.0.4/m_map_cut.c
 * trec_eval.9.0.4/m_P.c
 * trec_eval.9.0.4/m_rel_P.c

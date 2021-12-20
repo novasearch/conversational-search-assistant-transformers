@@ -66,7 +66,7 @@ def run_topics_general_reranker(trec_cast_eval, searcher, query_config, reranker
             if num_rel == 0:
                 continue
 
-            print(topic_turn_id)
+            print("topic_turn_id:", topic_turn_id)
 
             if query_config.use_union:
                 result = union_search(searcher, query_config.full_union, utterance_vector)
@@ -88,10 +88,10 @@ def run_topics_general_reranker(trec_cast_eval, searcher, query_config, reranker
                 result_reranked["retrieval_query"] = utterance
 
             else:
-                print("start re-ranking")
+                # print("start re-ranking")
                 result_reranked = reranker.rerank(utterance, result, reranking_threshold)
                 result_reranked["query"] = utterance
-                print("end re-ranking")
+                # print("end re-ranking")
 
             tmp_metrics = trec_cast_eval.eval(result_reranked[['_id', '_score']], topic_turn_id, only_marco,
                                               remove_wapo)
@@ -569,10 +569,14 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    print("Arguments:", args)
+    print()
+
     reranker_model = None
     if args.reranker:
-        print("using BERT Reranker")
-        reranker_model = BertReranker(use_cuda=True, use_batches=True, batch_size=args.reranker_batch_size)
+        print("Using BERT Reranker")
+        use_batches = False if args.reranker_batch_size <= 1 else True
+        reranker_model = BertReranker(use_cuda=True, use_batches=use_batches, batch_size=args.reranker_batch_size)
 
     print("Started running...")
     run_general_example(trec_cast_eval=ConvSearchEvaluationGeneral([args.topics_json_path], [args.qrel_file_path]),
