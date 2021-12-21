@@ -1,6 +1,6 @@
 # Open-Domain Conversational Search Assistant with Transformers
 
-This is the official repository for the paper Open-Domain Conversational Search Assistant with Transformers 
+This is the original repository for the paper Open-Domain Conversational Search Assistant with Transformers 
 available [here](https://arxiv.org/pdf/2101.08197.pdf).
 
 ## Getting Started
@@ -19,7 +19,7 @@ Or you can manually install the necessary packages:
 * cbor - `pip install cbor`
 * torch - `pip install torch torchvision torchaudio` or `conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch`
 * transformers - `pip install transformers` or `conda install -c huggingface transformers`
-* `pip install faiss-cpu` or `conda install faiss-cpu -c pytorch`
+* faiss-cpu - `pip install faiss-cpu` or `conda install faiss-cpu -c pytorch`
 * pyserini - `pip install pyserini` or [conda version](https://github.com/castorini/pyserini/blob/master/docs/installation.md)
 
 
@@ -162,7 +162,8 @@ and various **.csv** files in the **results** folder with the **unnoficial** met
 ## Evaluate the Runs
 The metrics outputted from the run_test_generalizable.py script are not the official metrics, so we now run the
 official [trec_eval](https://trec.nist.gov/trec_eval/) script over the generated runs.
-Download the trec_eval from [here]((https://trec.nist.gov/trec_eval/)) if needed.
+We provide a version of trec_eval but you can also download a newer version of 
+trec_eval from [here]((https://trec.nist.gov/trec_eval/)) if needed.
 
 If you download a newer version of trec_eval you may need to change some files in the official script to include the metrics at rank 3.
 * trec_eval.9.0.4/m_map_cut.c
