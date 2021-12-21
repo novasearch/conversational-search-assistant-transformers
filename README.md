@@ -163,7 +163,7 @@ and various **.csv** files in the **results** folder with the **unnoficial** met
 The metrics outputted from the run_test_generalizable.py script are not the official metrics, so we now run the
 official [trec_eval](https://trec.nist.gov/trec_eval/) script over the generated runs.
 We provide a version of trec_eval but you can also download a newer version of 
-trec_eval from [here]((https://trec.nist.gov/trec_eval/)) if needed.
+trec_eval from [here](https://trec.nist.gov/trec_eval/) if needed.
 
 If you download a newer version of trec_eval you may need to change some files in the official script to include the metrics at rank 3.
 * trec_eval.9.0.4/m_map_cut.c
